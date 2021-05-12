@@ -23,7 +23,7 @@ export class SocketIoConnector extends Connector {
 
         this.socket = io(this.options.host, this.options);
 
-        this.socket.on('reconnect', () => {
+        this.socket.io.on('reconnect', () => {
             Object.values(this.channels).forEach((channel) => {
                 channel.subscribe();
             });
