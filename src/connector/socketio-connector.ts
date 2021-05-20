@@ -23,6 +23,13 @@ export class SocketIoConnector extends Connector {
 
         this.socket = io(this.options.host, this.options);
 
+        this.socket.on("connect_error", (err) => {
+            console.error(err);
+            if (err.message && err.message.indexOf('403') !== -1) {
+                this.disconnect();
+            }
+        });
+
         this.socket.io.on('reconnect', () => {
             Object.values(this.channels).forEach((channel) => {
                 channel.subscribe();
